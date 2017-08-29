@@ -64,6 +64,7 @@ def try_patch_panorama():
   # FIXME: A quick hack, need to handle errors and check whether has been
   # applied in the future.
   try:
+    subprocess.check_call(['mkdir', '-p', panorama_dir])
     subprocess.check_call(['git', '-C', panorama_dir, 'apply', panorama_patch])
     print('Panorama patched successfully!')
   except subprocess.CalledProcessError:
