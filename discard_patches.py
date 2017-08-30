@@ -36,6 +36,11 @@ def dispatch_panorama():
   panorama_dir = os.path.join(config.android_home,
                               config.bench_dict['Panorama'])
   discard_git(panorama_dir)
+  try:
+    subprocess.check_call(['rm', '-rf', panorama_dir])
+    print('Panorama benchmark directory deleted successfully!')
+  except subprocess.CalledProcessError:
+    print('Error deleting Panorama benchmark directory')
 
 
 def dispatch_synthmark():
