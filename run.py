@@ -109,12 +109,12 @@ def _parse_arguments(argv):
   parser.add_argument(
       '--frequency',
       type=int,
-      default=960000,
+      default=979200,
       help='Specify the CPU frequency of the device. The '
       'unit is KHZ. The available value is defined in'
       'cpufreq/scaling_available_frequency file in '
       'device\'s each core directory. '
-      'The default value is 960000, which shows a '
+      'The default value is 979200, which shows a '
       'balance in noise and performance. Lower '
       'frequency will slow down the performance but '
       'reduce noise.')
