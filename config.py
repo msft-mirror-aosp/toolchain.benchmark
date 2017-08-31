@@ -29,13 +29,13 @@ env_config = ConfigParser.ConfigParser(allow_no_value=True)
 env_config.read('env_setting')
 
 def get_suite_env(name, path=False):
-  variable = env_config.get('Suite_Environment', name)
-  if variable:
-    if path and not os.path.isdir(variable):
-      raise ValueError('The path of %s does not exist.' % name)
-    return variable
-  else:
-    raise ValueError('Please specify %s in env_setting' % name)
+    variable = env_config.get('Suite_Environment', name)
+    if variable:
+        if path and not os.path.isdir(variable):
+            raise ValueError('The path of %s does not exist.' % name)
+        return variable
+    else:
+        raise ValueError('Please specify %s in env_setting' % name)
 
 # Android source code type: internal or aosp
 android_type = get_suite_env('android_type')
