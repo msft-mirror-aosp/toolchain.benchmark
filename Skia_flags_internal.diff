@@ -6,7 +6,7 @@ index b4e1f5f701..13e1c6645f 100644
          "-D_FORTIFY_SOURCE=1",
          "-DSKIA_IMPLEMENTATION=1",
          "-DATRACE_TAG=ATRACE_TAG_VIEW",
-+	CFLAGS_FOR_BENCH_SUITE
++        CFLAGS_FOR_BENCH_SUITE
      ],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
  
@@ -16,7 +16,7 @@ index b4e1f5f701..13e1c6645f 100644
  
      cflags: [
          "-Wno-unused-parameter",
-+	CFLAGS_FOR_BENCH_SUITE
++        CFLAGS_FOR_BENCH_SUITE
      ],
  
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
