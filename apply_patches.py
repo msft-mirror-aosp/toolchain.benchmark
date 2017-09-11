@@ -16,27 +16,6 @@ import subprocess
 # The patches to be added to the android repo.
 # An error may occur if it is already patched, or meets some error.
 # FIXME: Needs to be FIXED in the future.
-def try_patch_skia():
-    skia_dir = os.path.join(config.android_home, config.bench_dict['Skia'])
-    # You may want to change the file based on aosp or internal
-    if config.android_type == 'internal':
-        print('No need to patch skia for internal repo.')
-        return
-    elif config.android_type == 'aosp':
-        skia_patch = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), 'skia_aosp.diff')
-    else:
-        raise ValueError('Adnroid source type should be either aosp or '
-                         'internal.')
-    # FIXME: A quick hack, need to handle errors and check whether has been
-    # applied in the future.
-    try:
-        subprocess.check_call(['git', '-C', skia_dir, 'apply', skia_patch])
-        print('Skia patched successfully!')
-    except subprocess.CalledProcessError:
-        print('Skia patch not applied, error or already patched.')
-
-
 def try_patch_autotest():
     # Patch autotest, which includes all the testcases on device,
     # setting device, and running the benchmarks
@@ -101,7 +80,6 @@ def try_patch_synthmark():
 
 
 def main():
-    try_patch_skia()
     try_patch_panorama()
     try_patch_autotest()
     try_patch_synthmark()

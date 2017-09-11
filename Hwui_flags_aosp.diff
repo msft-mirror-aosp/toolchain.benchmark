@@ -1,16 +1,12 @@
 diff --git a/libs/hwui/Android.bp b/libs/hwui/Android.bp
-index 558cdc0faf3..1565be5b201 100644
+index ae4eabf94d0..b7f758f1ca5 100644
 --- a/libs/hwui/Android.bp
 +++ b/libs/hwui/Android.bp
-@@ -24,12 +24,15 @@ cc_defaults {
-         "-Werror",
-         "-fvisibility=hidden",
-         "-DHWUI_NEW_OPS",
-+	CFLAGS_FOR_BENCH_SUITE
- 
-         // GCC false-positives on this warning, and since we -Werror that's
-         // a problem
-         "-Wno-free-nonheap-object",
+@@ -33,8 +33,11 @@ cc_defaults {
+         // TODO: Linear blending should be enabled by default, but we are
+         // TODO: making it an opt-in while it's a work in progress
+         //"-DANDROID_ENABLE_LINEAR_BLENDING",
++        CFLAGS_FOR_BENCH_SUITE
      ],
  
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
@@ -18,7 +14,7 @@ index 558cdc0faf3..1565be5b201 100644
      include_dirs: [
          "external/skia/include/private",
          "external/skia/src/core",
-@@ -214,6 +217,9 @@ cc_defaults {
+@@ -236,6 +239,9 @@ cc_defaults {
          export_proto_headers: true,
      },
  
@@ -26,25 +22,27 @@ index 558cdc0faf3..1565be5b201 100644
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
 +
      export_include_dirs: ["."],
+     export_shared_lib_headers: ["libRScpp"],
  }
+@@ -350,6 +356,9 @@ cc_benchmark {
+     whole_static_libs: ["libhwui"],
+     shared_libs: ["libmemunreachable"],
  
-@@ -229,7 +235,8 @@ cc_library {
- cc_library_static {
-     name: "libhwui_static_null_gpu",
-     defaults: ["libhwui_defaults"],
--    cflags: ["-DHWUI_NULL_GPU"],
-+    cflags: ["-DHWUI_NULL_GPU", CFLAGS_FOR_BENCH_SUITE],
++    cflags: [CFLAGS_FOR_BENCH_SUITE],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
++
      srcs: [
-         "debug/nullegl.cpp",
-         "debug/nullgles.cpp",
-@@ -319,7 +326,8 @@ cc_benchmark {
-     name: "hwuimicro",
-     defaults: ["hwui_test_defaults"],
+         "tests/macrobench/TestSceneRunner.cpp",
+         "tests/macrobench/main.cpp",
+@@ -367,8 +376,11 @@ cc_benchmark {
+     cflags: [
+         "-include debug/wrap_gles.h",
+         "-DHWUI_NULL_GPU",
++        CFLAGS_FOR_BENCH_SUITE
+     ],
  
--    cflags: ["-DHWUI_NULL_GPU"],
-+    cflags: ["-DHWUI_NULL_GPU", CFLAGS_FOR_BENCH_SUITE],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
++
+     whole_static_libs: ["libhwui_static_debug"],
+     shared_libs: ["libmemunreachable"],
  
-     whole_static_libs: ["libhwui_static_null_gpu"],
-
