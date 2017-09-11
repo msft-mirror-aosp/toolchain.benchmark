@@ -6,7 +6,7 @@ index f7347aef1..a539fac47 100644
          "-Wall",
          "-Wextra",
          "-Werror",
-+	CFLAGS_FOR_BENCH_SUITE
++        CFLAGS_FOR_BENCH_SUITE
      ],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
      product_variables: {
