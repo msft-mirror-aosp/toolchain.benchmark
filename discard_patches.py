@@ -22,11 +22,6 @@ def discard_git(path):
         print('Error while removing patch in %s' % path)
 
 
-def dispatch_skia():
-    skia_dir = os.path.join(config.android_home, config.bench_dict['Skia'])
-    discard_git(skia_dir)
-
-
 def dispatch_autotest():
     autotest_dir = os.path.join(config.android_home, config.autotest_dir)
     discard_git(autotest_dir)
@@ -55,7 +50,6 @@ def dispatch_synthmark():
 
 
 def main():
-    dispatch_skia()
     dispatch_autotest()
     dispatch_panorama()
     dispatch_synthmark()
