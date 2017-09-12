@@ -1,28 +1,40 @@
 diff --git a/Android.bp b/Android.bp
-index a581b0a53..36159c5ae 100644
+index d259f8f13e..b87fccc7b6 100644
 --- a/Android.bp
 +++ b/Android.bp
-@@ -40,8 +40,11 @@ cc_library {
-         "-Wno-clobbered",
-         "-Wno-error",
-         "-fexceptions",
-+	CFLAGS_FOR_BENCH_SUITE
-     ],
- 
-+    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
-+
-     cppflags: [
-         "-std=c++11",
-         "-fno-threadsafe-statics",
-@@ -1470,8 +1473,11 @@ cc_test {
-         "-U_FORTIFY_SOURCE",
+@@ -9,8 +9,11 @@ cc_library {
          "-D_FORTIFY_SOURCE=1",
          "-DSKIA_IMPLEMENTATION=1",
-+	CFLAGS_FOR_BENCH_SUITE
+         "-DATRACE_TAG=ATRACE_TAG_VIEW",
++        CFLAGS_FOR_BENCH_SUITE
      ],
  
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
 +
-     cppflags: [
-         "-std=c++11",
-         "-fno-threadsafe-statics",
+     export_include_dirs: [
+         "include/android/",
+         "include/c/",
+@@ -845,8 +848,11 @@ cc_test {
+ 
+     cflags: [
+         "-Wno-unused-parameter",
++        CFLAGS_FOR_BENCH_SUITE
+     ],
+ 
++    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
++
+     local_include_dirs: [
+         "experimental/svg/model/",
+         "gm/",
+@@ -1602,8 +1608,11 @@ cc_test {
+ 
+     cflags: [
+         "-Wno-unused-parameter",
++        CFLAGS_FOR_BENCH_SUITE
+     ],
+ 
++    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
++
+     local_include_dirs: [
+         "bench/",
+         "experimental/svg/model/",
