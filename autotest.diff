@@ -265,7 +265,7 @@ index 000000000..9a1accb09
 +        lib64_dir = os.path.join(out_dir, 'system/lib64/libhwui.so')
 +        lib64_dir_DUT = '/system/lib64/libhwui.so'
 +        bench_dir = os.path.join(out_dir,
-+                                 'symbols/data/nativetest64/',
++                                 'symbols/data/benchmarktest64/',
 +                                 'hwuimicro/hwuimicro')
 +        bench_dir_DUT = '/data/local/tmp/hwuimicro'
 +
