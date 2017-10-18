@@ -1,13 +1,14 @@
 diff --git a/compiler/Android.bp b/compiler/Android.bp
-index a1269dcaf..a9b62b474 100644
+index 1e4cdf2bd5..e14dce8d7b 100644
 --- a/compiler/Android.bp
 +++ b/compiler/Android.bp
-@@ -215,6 +215,8 @@ art_cc_defaults {
-     shared: {
-         shared_libs: ["libcrypto"],
-     },
+@@ -197,6 +197,9 @@ art_cc_defaults {
+         "art_cmdlineparser_headers",  // For compiler_options.
+     ],
+ 
 +    cflags: [CFLAGS_FOR_BENCH_SUITE],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
++
+     export_include_dirs: ["."],
  }
  
- gensrcs {
