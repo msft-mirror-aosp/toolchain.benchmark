@@ -237,7 +237,7 @@ index 000000000..763864f3a
 +parallel_simple(run_dex2oat, machines)
 diff --git a/server/site_tests/android_Hwui/android_Hwui.py b/server/site_tests/android_Hwui/android_Hwui.py
 new file mode 100644
-index 000000000..9a1accb09
+index 000000000..21e77fd54
 --- /dev/null
 +++ b/server/site_tests/android_Hwui/android_Hwui.py
 @@ -0,0 +1,67 @@
@@ -663,10 +663,10 @@ index 000000000..85163706d
 +parallel_simple(run_set_device_test, machines)
 diff --git a/server/site_tests/android_Skia/android_Skia.py b/server/site_tests/android_Skia/android_Skia.py
 new file mode 100644
-index 000000000..fc8d09dab
+index 000000000..80b39a027
 --- /dev/null
 +++ b/server/site_tests/android_Skia/android_Skia.py
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,59 @@
 +# Tests for android Skia
 +from __future__ import print_function
 +
@@ -687,10 +687,6 @@ index 000000000..fc8d09dab
 +                              'out/target/product/' + bench_config.product)
 +
 +        # Set binary directories
-+        lib_dir = os.path.join(out_dir, 'system/lib/libskia.so')
-+        lib_dir_DUT = '/system/lib/libskia.so'
-+        lib64_dir = os.path.join(out_dir, 'system/lib64/libskia.so')
-+        lib64_dir_DUT = '/system/lib64/libskia.so'
 +        bench_dir = os.path.join(out_dir,
 +                                 'data/nativetest64/',
 +                                 'skia_nanobench/skia_nanobench')
@@ -699,8 +695,6 @@ index 000000000..fc8d09dab
 +        # Push binary to the device
 +        print('Pushing Skia benchmark onto device!')
 +        host.send_file(bench_dir, bench_dir_DUT, delete_dest=True)
-+        host.send_file(lib_dir, lib_dir_DUT, delete_dest=True)
-+        host.send_file(lib64_dir, lib64_dir_DUT, delete_dest=True)
 +
 +        # Make sure the binary is executable
 +        self.client.run('chmod u+x ' + bench_dir_DUT)

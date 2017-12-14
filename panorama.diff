@@ -2302,10 +2302,10 @@ index 00000000..9999f575
 +#endif
 diff --git a/benchmark/feature_mos/src/mosaic/Blend.cpp b/benchmark/feature_mos/src/mosaic/Blend.cpp
 new file mode 100644
-index 00000000..b6a843a2
+index 00000000..625196c6
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic/Blend.cpp
-@@ -0,0 +1,1395 @@
+@@ -0,0 +1,1385 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -2444,10 +2444,8 @@ index 00000000..b6a843a2
 +    global_rect.lft = global_rect.bot = 2e30; // min values
 +    global_rect.rgt = global_rect.top = -2e30; // max values
 +    MosaicFrame *mb = NULL;
-+    double halfwidth = width / 2.0;
-+    double halfheight = height / 2.0;
 +
-+    double z, x0, y0, x1, y1, x2, y2, x3, y3;
++    double x0, y0, x1, y1, x2, y2, x3, y3;
 +
 +    // Corners of the left-most and right-most frames respectively in the
 +    // mosaic coordinate system.
@@ -2943,9 +2941,6 @@ index 00000000..b6a843a2
 +    ImageType uimg;
 +    ImageType vimg;
 +
-+    int cx = (int)imgMos.Y.width/2;
-+    int cy = (int)imgMos.Y.height/2;
-+
 +    // 2D boolean array that contains true wherever the mosaic image data is
 +    // invalid (i.e. in the gray border).
 +    bool **b = new bool*[imgMos.Y.height];
@@ -3114,7 +3109,6 @@ index 00000000..b6a843a2
 +{
 +    PyramidShort *dptr = m_pMosaicYPyr;
 +
-+    int nC = m_wb.nlevsC;
 +    int l = (int) ((vcrect.lft - rect.left));
 +    int b = (int) ((vcrect.bot - rect.top));
 +    int r = (int) ((vcrect.rgt - rect.left));
@@ -3160,7 +3154,6 @@ index 00000000..b6a843a2
 +                continue;
 +
 +            // scan the neighbors to see if this is a valid position
-+            unsigned char mask = (unsigned char) 255;
 +            SEdgeVector *ce;
 +            int ecnt;
 +            for (ce = csite->getNeighbor(), ecnt = csite->getNumNeighbors(); ecnt--; ce++)
@@ -3509,8 +3502,6 @@ index 00000000..b6a843a2
 +    MosaicFrame *last = frames[frames_size-1];
 +    MosaicFrame *mb;
 +
-+    double fxpos = first->trs[0][2], fypos = first->trs[1][2];
-+
 +    double midX = last->width / 2.0;
 +    double midY = last->height / 2.0;
 +    double z = ProjZ(first->trs, midX, midY, 1.0);
@@ -3530,7 +3521,6 @@ index 00000000..b6a843a2
 +        currY = ProjY(mb->trs, midX, midY, z, 1.0);
 +        double deltaX = currX - prevX;
 +        double deltaY = currY - prevY;
-+        double center2centerDist = sqrt(deltaY * deltaY + deltaX * deltaX);
 +
 +        if (fabs(deltaX) > STRIP_SEPARATION_THRESHOLD_PXLS ||
 +                fabs(deltaY) > STRIP_SEPARATION_THRESHOLD_PXLS)
@@ -3906,10 +3896,10 @@ index 00000000..928c1734
 +#endif
 diff --git a/benchmark/feature_mos/src/mosaic/Delaunay.cpp b/benchmark/feature_mos/src/mosaic/Delaunay.cpp
 new file mode 100644
-index 00000000..0ce09fc5
+index 00000000..e8015dfd
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic/Delaunay.cpp
-@@ -0,0 +1,633 @@
+@@ -0,0 +1,631 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -4404,8 +4394,6 @@ index 00000000..0ce09fc5
 +// TRUE iff A, B, C form a counterclockwise oriented triangle
 +int CDelaunay::ccw(SitePointer a, SitePointer b, SitePointer c)
 +{
-+  int result;
-+
 +  double ax = sa[a].X();
 +  double bx = sa[b].X();
 +  double cx = sa[c].X();
@@ -4882,10 +4870,10 @@ index 00000000..0efa0f4a
 +
 diff --git a/benchmark/feature_mos/src/mosaic/ImageUtils.cpp b/benchmark/feature_mos/src/mosaic/ImageUtils.cpp
 new file mode 100644
-index 00000000..daa86060
+index 00000000..28629d34
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic/ImageUtils.cpp
-@@ -0,0 +1,408 @@
+@@ -0,0 +1,406 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -5003,8 +4991,7 @@ index 00000000..daa86060
 +
 +ImageType ImageUtils::rgb2gray(ImageType in, int width, int height)
 +{
-+  int r,g,b, nr, ng, nb, val;
-+  ImageType gray = NULL;
++  int r,g,b;
 +  ImageType image = in;
 +  ImageType out = ImageUtils::allocateImage(width, height, 1);
 +  ImageType outCopy = out;
@@ -5033,8 +5020,7 @@ index 00000000..daa86060
 +
 +ImageType ImageUtils::rgb2gray(ImageType out, ImageType in, int width, int height)
 +{
-+  int r,g,b, nr, ng, nb, val;
-+  ImageType gray = out;
++  int r,g,b;
 +  ImageType image = in;
 +  ImageType outCopy = out;
 +
@@ -6727,10 +6713,10 @@ index 00000000..c5fe9071
 +#endif
 diff --git a/benchmark/feature_mos/src/mosaic/trsMatrix.cpp b/benchmark/feature_mos/src/mosaic/trsMatrix.cpp
 new file mode 100644
-index 00000000..5fc6a86b
+index 00000000..4c04e6c3
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic/trsMatrix.cpp
-@@ -0,0 +1,94 @@
+@@ -0,0 +1,93 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -6773,7 +6759,6 @@ index 00000000..5fc6a86b
 +// return: result if successful
 +int normProjMat33d(double m[3][3])
 +{
-+    double m22;
 +
 +    if(m[2][2] == 0.0)
 +        {
@@ -7333,10 +7318,10 @@ index 00000000..a43e8028
 +
 diff --git a/benchmark/feature_mos/src/mosaic_renderer/SurfaceTextureRenderer.cpp b/benchmark/feature_mos/src/mosaic_renderer/SurfaceTextureRenderer.cpp
 new file mode 100755
-index 00000000..fa56402e
+index 00000000..36f133f8
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic_renderer/SurfaceTextureRenderer.cpp
-@@ -0,0 +1,188 @@
+@@ -0,0 +1,186 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -7369,8 +7354,6 @@ index 00000000..fa56402e
 +    1.0f,  1.0f          // TexCoord 3
 +};
 +GLushort g_iIndices2[] = { 0, 1, 2, 3 };
-+
-+const int GL_TEXTURE_EXTERNAL_OES_ENUM = 0x8D65;
 +
 +const int VERTEX_STRIDE = 6 * sizeof(GLfloat);
 +
@@ -7773,10 +7756,10 @@ index 00000000..af6779a3
 +}
 diff --git a/benchmark/feature_mos/src/mosaic_renderer/WarpRenderer.h b/benchmark/feature_mos/src/mosaic_renderer/WarpRenderer.h
 new file mode 100755
-index 00000000..8e9a694e
+index 00000000..aa3f50c0
 --- /dev/null
 +++ b/benchmark/feature_mos/src/mosaic_renderer/WarpRenderer.h
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,44 @@
 +#pragma once
 +
 +#include "FrameBuffer.h"
@@ -7806,10 +7789,6 @@ index 00000000..8e9a694e
 +    // Source code for shaders.
 +    const char* VertexShaderSource() const;
 +    const char* FragmentShaderSource() const;
-+
-+    GLuint mTexHandle;                  // Handle to s_texture.
-+    GLuint mTexCoordHandle;             // Handle to a_texCoord.
-+    GLuint mTriangleVerticesHandle;     // Handle to vPosition.
 +
 +    // Attribute locations
 +    GLint  mPositionLoc;
@@ -10744,10 +10723,10 @@ index 00000000..68ffcc9a
 +#endif /*DB_FEATURE_DETECTION_H*/
 diff --git a/benchmark/feature_stab/db_vlvm/db_feature_matching.cpp b/benchmark/feature_stab/db_vlvm/db_feature_matching.cpp
 new file mode 100644
-index 00000000..d278d0cf
+index 00000000..891cac33
 --- /dev/null
 +++ b/benchmark/feature_stab/db_vlvm/db_feature_matching.cpp
-@@ -0,0 +1,3410 @@
+@@ -0,0 +1,3409 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -11377,7 +11356,6 @@ index 00000000..d278d0cf
 +{
 +    float den;
 +    int f2sum,fsum;
-+    int xm_f=x_f-10;
 +    short f;
 +
 +    int xwi;
@@ -22455,10 +22433,10 @@ index 00000000..dc61a9c0
 +DOT_CLEANUP            = YES
 diff --git a/benchmark/feature_stab/src/dbreg/dbreg.cpp b/benchmark/feature_stab/src/dbreg/dbreg.cpp
 new file mode 100644
-index 00000000..da06aa2a
+index 00000000..986e255e
 --- /dev/null
 +++ b/benchmark/feature_stab/src/dbreg/dbreg.cpp
-@@ -0,0 +1,794 @@
+@@ -0,0 +1,793 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -22991,7 +22969,6 @@ index 00000000..da06aa2a
 +    }
 +
 +  m_num_inlier_indices = inliercount;
-+  double frac=inliercount/totnummatches;
 +}
 +
 +//void db_FrameToReferenceRegistration::Polish(std::vector<int> &inlier_indices)
@@ -23842,10 +23819,10 @@ index 00000000..4eb24448
 +#endif
 diff --git a/benchmark/feature_stab/src/dbreg/dbstabsmooth.cpp b/benchmark/feature_stab/src/dbreg/dbstabsmooth.cpp
 new file mode 100644
-index 00000000..2bb5d2e5
+index 00000000..03608c69
 --- /dev/null
 +++ b/benchmark/feature_stab/src/dbreg/dbstabsmooth.cpp
-@@ -0,0 +1,330 @@
+@@ -0,0 +1,301 @@
 +/*
 + * Copyright (C) 2011 The Android Open Source Project
 + *
@@ -23868,9 +23845,6 @@ index 00000000..2bb5d2e5
 +///// TODO TODO ////////// Replace this with the actual definition from Jayan's reply /////////////
 +#define vp_copy_motion_no_id vp_copy_motion
 +///////////////////////////////////////////////////////////////////////////////////////////////////
-+
-+static bool vpmotion_add(VP_MOTION *in1, VP_MOTION *in2, VP_MOTION *out);
-+static bool vpmotion_multiply(VP_MOTION *in1, double factor, VP_MOTION *out);
 +
 +db_StabilizationSmoother::db_StabilizationSmoother()
 +{
@@ -24148,32 +24122,6 @@ index 00000000..2bb5d2e5
 +        return(false);
 +
 +    return(true);
-+}
-+
-+
-+
-+static bool vpmotion_add(VP_MOTION *in1, VP_MOTION *in2, VP_MOTION *out)
-+{
-+    int i;
-+    if(in1 == NULL || in2 == NULL || out == NULL)
-+        return false;
-+
-+    for(i = 0; i < VP_MAX_MOTION_PAR; i++)
-+        out->par[i] = in1->par[i] + in2->par[i];
-+
-+    return true;
-+}
-+
-+static bool vpmotion_multiply(VP_MOTION *in1, double factor, VP_MOTION *out)
-+{
-+    int i;
-+    if(in1 == NULL || out == NULL)
-+        return false;
-+
-+    for(i = 0; i < VP_MAX_MOTION_PAR; i++)
-+        out->par[i] = in1->par[i] * factor;
-+
-+    return true;
 +}
 +
 diff --git a/benchmark/feature_stab/src/dbreg/dbstabsmooth.h b/benchmark/feature_stab/src/dbreg/dbstabsmooth.h
