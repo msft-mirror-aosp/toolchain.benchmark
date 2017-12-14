@@ -1,14 +1,14 @@
 diff --git a/compiler/Android.bp b/compiler/Android.bp
-index 1e4cdf2bd5..e14dce8d7b 100644
+index fe0f3c75c5..d0430bcd55 100644
 --- a/compiler/Android.bp
 +++ b/compiler/Android.bp
-@@ -197,6 +197,9 @@ art_cc_defaults {
-         "art_cmdlineparser_headers",  // For compiler_options.
+@@ -199,6 +199,9 @@ art_cc_defaults {
      ],
  
+     export_include_dirs: ["."],
++
 +    cflags: [CFLAGS_FOR_BENCH_SUITE],
 +    ldflags: [LDFLAGS_FOR_BENCH_SUITE],
-+
-     export_include_dirs: ["."],
  }
  
+ gensrcs {
